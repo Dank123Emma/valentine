@@ -78,10 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("click", moveNoButton);
 
-    // Music fade in
-    function fadeInMusic() {
-        bgMusic.volume = 0;
-        bgMusic.play();
+function startMusicAutomatically() {
+    bgMusic.volume = 0;
+    bgMusic.muted = false;
+
+    bgMusic.play().then(() => {
         let volume = 0;
         const fade = setInterval(() => {
             if (volume < 0.5) {
@@ -91,6 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearInterval(fade);
             }
         }, 200);
-    }
+    }).catch(err => {
+        console.log("Browser blocked autoplay:", err);
+    });
+}
 
+startMusicAutomatically();
 });
